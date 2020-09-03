@@ -2,6 +2,8 @@ package com.app.youtubeclone.service.impl;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.app.youtubeclone.entity.MediaFile;
+import com.app.youtubeclone.repository.MediaFileRepo;
 import com.app.youtubeclone.service.AwsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Service
 public class AwsServiceImpl implements AwsService {
@@ -20,22 +24,36 @@ public class AwsServiceImpl implements AwsService {
     @Value("${amazonProperties.bucketName}")
     private String bucketName;
 
+    @Autowired
+    MediaFileRepo mediaFileRepo;
+
     @Override
-    public void uploadFile(String videoKey, MultipartFile video, String thumbnailKey,MultipartFile thumbnail ) throws IOException {
+    public void upload(String title, String description, String tags, String restriction,
+                       String visibility, MultipartFile thumbnail, MultipartFile video) {
+        try {
+            String thumbnailOriginalFilename = thumbnail.getOriginalFilename();
+            String videoOriginalFilename = video.getOriginalFilename();
+
             ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentLength(video.getSize());
-            s3client.putObject(bucketName, videoKey, video.getInputStream(),metadata);
-            URL videoUrl = s3client.getUrl(bucketName, videoKey);
-
             metadata.setContentLength(thumbnail.getSize());
-            s3client.putObject(bucketName, thumbnailKey, thumbnail.getInputStream(),metadata);
+            s3client.putObject(bucketName, thumbnailOriginalFilename, thumbnail.getInputStream(), metadata);
+            String thumbnailurl = s3client.getUrl(bucketName, thumbnailOriginalFilename).toString();
 
-            URL thumbnailUrl = s3client.getUrl(bucketName,thumbnailKey);
-            System.out.println("Video => "+ videoUrl +" thumbnail => " +thumbnailUrl);
-    }
+            metadata.setContentLength(video.getSize());
+            s3client.putObject(bucketName, videoOriginalFilename, video.getInputStream(), metadata);
+            String videourl = s3client.getUrl(bucketName, videoOriginalFilename).toString();
 
-    @Override
-    public void delete(String keyName) {
+            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String created_at = f.format(new Date());
+
+            MediaFile mediaFile = new MediaFile(title, description, tags, restriction, created_at, visibility, thumbnailurl, videourl,
+                    "admin");
+            mediaFileRepo.save(mediaFile);
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
 
     }
 }

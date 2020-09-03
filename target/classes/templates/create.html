@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="form">
-    <form action="/upload" method="post">
+    <form action="/aws/upload" method="post" enctype="multipart/form-data">
         <h2>Upload Your Video Here!</h2>
         <label for="title">Title</label> <br>
         <input type="text" name="title" id="title" placeholder="Enter your title" required=""> <br>
@@ -29,14 +29,14 @@
         <label for="video">Upload Video (only .mp4 or .mkv)</label> <br>
         <input type="file" name="video" id="video" required=""> <br>
         <label >Visibility</label> <br>
-        <select name="tags" required="">
-            <option value="One">Public</option>
-            <option value="One">Private</option>
+        <select name="visibility" required="">
+            <option value="Public">Public</option>
+            <option value="Private">Private</option>
         </select> <br>
         <label>Restriction</label> <br>
-        <select name="tags" id="tag" required="">
-            <option value="One">Anyone can watch</option>
-            <option value="One">Only for adults</option>
+        <select name="restriction" id="tag" required="">
+            <option value="Anyone">Anyone can watch</option>
+            <option value="Adults">Only for adults</option>
         </select> <br>
         <input type="submit" value="Publish Video">
     </form>

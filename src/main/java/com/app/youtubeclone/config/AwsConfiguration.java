@@ -14,10 +14,13 @@ public class AwsConfiguration {
 
     @Value("${amazonProperties.bucketName}")
     private String bucketName;
+
     @Value("${amazonProperties.accessKey}")
     private String accessKey;
+
     @Value("${amazonProperties.secretKey}")
     private String secretKey;
+
     @Value("${amazonProperties.region}")
     private String region;
 
@@ -25,13 +28,11 @@ public class AwsConfiguration {
 
     @Bean
     public AmazonS3 s3client() {
-
         BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKey, secretKey);
         AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
                 .withRegion(Regions.fromName(region))
                 .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                 .build();
-
         return s3Client;
     }
 }

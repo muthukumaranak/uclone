@@ -2,11 +2,9 @@ package com.app.youtubeclone.service;
 
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.net.URL;
 
 
 public interface AwsService {
-
-
-    public void uploadFile(String videoKey, MultipartFile video, String thumbnailKey, MultipartFile thumbnail) throws IOException;
-    public void delete(String keyName);
+    void upload(String title, String description, String tags, String restriction, String visibility, MultipartFile thumbnail, MultipartFile video) throws IOException;
 }

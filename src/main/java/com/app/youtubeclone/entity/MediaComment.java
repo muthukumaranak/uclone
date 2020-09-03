@@ -1,75 +1,85 @@
-//package com.app.youtube.model;
-//
-//import javax.persistence.*;
-//import java.util.Date;
-//
-//@Entity
-//@Table(name = "media_comment")
-//public class MediaComment {
-//
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-//
-//    @Column(name = "comment")
-//    private String comment;
-//
-//    @Column(name = "created_at")
-//    private Date commentCreatedAt;
-//
-//    //ManyToOne
-//    private MediaFile mediaFile;
-//
-//    //ManyToOne
-//    private User user;
-//
-//    public MediaComment() {
-//    }
-//
-//    public MediaComment(String comment, Date commentCreatedAt, MediaFile mediaFile, User user) {
-//        this.comment = comment;
-//        this.commentCreatedAt = commentCreatedAt;
-//        this.mediaFile = mediaFile;
-//        this.user = user;
-//    }
-//
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-//
-//    public String getComment() {
-//        return comment;
-//    }
-//
-//    public void setComment(String comment) {
-//        this.comment = comment;
-//    }
-//
-//    public Date getCommentCreatedAt() {
-//        return commentCreatedAt;
-//    }
-//
-//    public void setCommentCreatedAt(Date commentCreatedAt) {
-//        this.commentCreatedAt = commentCreatedAt;
-//    }
-//
-//    public MediaFile getMediaFile() {
-//        return mediaFile;
-//    }
-//
-//    public void setMediaFile(MediaFile mediaFile) {
-//        this.mediaFile = mediaFile;
-//    }
-//
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
-//}
+package com.app.youtubeclone.entity;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "media_comment")
+public class MediaComment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    public int id;
+
+    @Column(name = "commentby")
+    public String commentby;
+
+    @Column(name = "comment")
+    public String comment;
+
+    @ManyToOne
+    @JoinColumn(name = "mediafileid", referencedColumnName = "id")
+    public MediaFile mediaComment;
+
+    @Column(name = "created_at")
+    public String created_at;
+
+    public MediaComment(int id, String commentby, String comment, MediaFile mediaFile, String created_at) {
+        this.id = id;
+        this.commentby = commentby;
+        this.comment = comment;
+        this.mediaComment = mediaFile;
+        this.created_at = created_at;
+    }
+
+    public MediaComment(String commentby, String comment, MediaFile mediaFile, String created_at) {
+        this.commentby = commentby;
+        this.comment = comment;
+        this.mediaComment = mediaFile;
+        this.created_at = created_at;
+    }
+
+    public MediaComment() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCommentby() {
+        return commentby;
+    }
+
+    public void setCommentby(String commentby) {
+        this.commentby = commentby;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public MediaFile getMediaFile() {
+        return mediaComment;
+    }
+
+    public void setMediaFile(MediaFile mediaFile) {
+        this.mediaComment = mediaFile;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
+}
+
