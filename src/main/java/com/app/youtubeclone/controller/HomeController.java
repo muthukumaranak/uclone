@@ -16,4 +16,13 @@ public class HomeController {
         return "create";
     }
 
+    @GetMapping("/userRegistration")
+    public String userRegistration(){
+        return "userRegistration";
+    }
+
+    @GetMapping("/channelRegistration")
+    public String channelRegistration(){
+        return "channelRegistration";
+    }
 }
