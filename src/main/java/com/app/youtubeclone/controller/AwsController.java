@@ -12,10 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.URL;
 
 @Controller
-@RequestMapping("/aws")
+
 public class AwsController {
 
     @Value("${amazonProperties.bucketName}")
@@ -26,23 +25,34 @@ public class AwsController {
 
     private AmazonS3 s3client;
 
+
     @PostMapping("/upload")
     public String upload(@RequestParam String title, @RequestParam String description, @RequestParam String tags,
-                                      @RequestParam("thumbnail") MultipartFile thumbnail, @RequestParam("video") MultipartFile video,
-                                      @RequestParam String visibility, @RequestParam String restriction) {
+                         @RequestParam("thumbnail") MultipartFile thumbnail, @RequestParam("video") MultipartFile video,
+                         @RequestParam String duration, @RequestParam String visibility, @RequestParam String restriction) {
         try {
-            awsService.upload(title, description, tags, restriction, visibility, thumbnail, video);
+            awsService.upload(title, description, tags, restriction, visibility, thumbnail, video, duration);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return "home";
     }
 
-    //@DeleteMapping("/delete")
-    //public String delete(@RequestParam(value= "file") String keyName) {
-      //  awsService.delete(keyName);
-        //return "Deleted";
-    //}
 
+    @DeleteMapping("/delete/{keyName}")
+    public void deleteFile(@PathVariable String keyName) {
+        final DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucketName, keyName);
+        s3client.deleteObject(deleteObjectRequest);
+    }
 
+    private MediaType contentType(String keyname) {
+        String[] arr = keyname.split("\\.");
+        String type = arr[arr.length-1];
+        switch(type) {
+            case "txt": return MediaType.TEXT_PLAIN;
+            case "png": return MediaType.IMAGE_PNG;
+            case "jpg": return MediaType.IMAGE_JPEG;
+            default: return MediaType.APPLICATION_OCTET_STREAM;
+        }
+    }
 }

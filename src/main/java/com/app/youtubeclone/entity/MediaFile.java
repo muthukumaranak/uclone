@@ -38,6 +38,9 @@ public class MediaFile {
     @Column(name = "owner")
     private String owner;
 
+    @Column(name = "duration")
+    private String duration;
+
     @OneToOne(mappedBy = "mediaFile", fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true, targetEntity = MediaStatus.class)
     private List<MediaStatus> mediaStatus;
 
@@ -48,7 +51,7 @@ public class MediaFile {
     }
 
     public MediaFile(String title, String description, String tag, String restriction, String createdAt,
-                     String visibility, String thumbnailUrl, String videoUrl, String owner) {
+                     String visibility, String thumbnailUrl, String videoUrl, String duration, String owner) {
         this.title = title;
         this.description = description;
         this.tag = tag;
@@ -57,6 +60,7 @@ public class MediaFile {
         this.visibility = visibility;
         this.thumbnailUrl = thumbnailUrl;
         this.videoUrl = videoUrl;
+        this.duration = duration;
         this.owner = owner;
     }
 
@@ -155,5 +159,12 @@ public class MediaFile {
     public void setMediaComment(List<MediaComment> mediaComment) {
         this.mediaComment = mediaComment;
     }
-}
 
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+}
