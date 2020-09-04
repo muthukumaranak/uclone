@@ -1,5 +1,6 @@
 package com.app.youtubeclone.controller;
 
+<<<<<<< HEAD
 import com.app.youtubeclone.entity.MediaFile;
 import com.app.youtubeclone.repository.MediaFileRepo;
 <<<<<<< HEAD
@@ -11,20 +12,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 >>>>>>> cb0ed0478b0d66792ff456f96a5ee2959526d038
+=======
+>>>>>>> 3221d561c4d60f96ca4ae72780b965ba6a2729a9
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Date;
-import java.util.List;
 
 import java.util.List;
 
 @Controller
 public class HomeController {
 
+<<<<<<< HEAD
     @Autowired
 <<<<<<< HEAD
     MediaFileRepo mediaFileRepo;
@@ -32,31 +30,28 @@ public class HomeController {
     private MediaService mediaService;
 >>>>>>> cb0ed0478b0d66792ff456f96a5ee2959526d038
 
+=======
+>>>>>>> 3221d561c4d60f96ca4ae72780b965ba6a2729a9
     @GetMapping("/")
-    public String viewHomePage(Model model) {
-        return findPage(1, "title", "asc","",model);
+    public String home(){
+        return "home";
     }
 
     @GetMapping("/create")
-    public String create() {
+    public String create(){
         return "create";
     }
 
-    @GetMapping("/page/{pageNo}")
-    public String findPage( @PathVariable(value = "pageNo") int pageNo, @RequestParam("sortField") String sortField, @RequestParam("sortDirection") String sortDirection, @RequestParam(value = "keyword", required = false) String keyword, Model model) {
-        final int PAGE_SIZE = 2;
-        Page<MediaFile> page = mediaService.findPage(pageNo, PAGE_SIZE, sortField, sortDirection,keyword);
-        List<MediaFile> mediaFiles = page.getContent();
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDirection", sortDirection);
-        model.addAttribute("keyword",keyword);
-        model.addAttribute("mediaFiles",mediaFiles);
-
-        return "home";
+    @GetMapping("/userRegistration")
+    public String userRegistration(){
+        return "userRegistration";
     }
+
+    @GetMapping("/channelRegistration")
+    public String channelRegistration(){
+        return "channelRegistration";
+    }
+<<<<<<< HEAD
 <<<<<<< HEAD
 
     @GetMapping("/getall")
@@ -68,3 +63,6 @@ public class HomeController {
 =======
 }
 >>>>>>> cb0ed0478b0d66792ff456f96a5ee2959526d038
+=======
+}
+>>>>>>> 3221d561c4d60f96ca4ae72780b965ba6a2729a9
