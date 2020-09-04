@@ -59,13 +59,39 @@ public class MediaServiceImpl implements MediaService {
     @Override
     public String like(String id) {
         try{
-            Optional<MediaFile> list = mediaFileRepo.findById(Integer.parseInt(id));
-
+            int total_likes = mediaFileRepo.findLikes(Integer.parseInt(id));
+            mediaFileRepo.updateLikes(total_likes+1,Integer.parseInt(id));
             return "Liked";
         }catch (Exception e){
             System.out.println(e);
             return "Not added";
         }
     }
+
+    @Override
+    public String dislike(String id) {
+        try{
+            int total_likes = mediaFileRepo.findDisLikes(Integer.parseInt(id));
+            mediaFileRepo.updateDisLikes(total_likes+1,Integer.parseInt(id));
+            return "DisLiked";
+        }catch (Exception e){
+            System.out.println(e);
+            return "Not added";
+        }
+    }
+
+    @Override
+    public String views(int id) {
+        try{
+            int total_views = mediaFileRepo.findViews(id);
+            mediaFileRepo.updateViews(total_views+1,id);
+            return "View Increased";
+        }catch (Exception e){
+            System.out.println(e);
+            return "Not added";
+        }
+    }
+
+
 }
 

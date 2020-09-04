@@ -1,8 +1,6 @@
 package com.app.youtubeclone.controller;
 
 
-import com.app.youtubeclone.entity.MediaComment;
-import com.app.youtubeclone.entity.MediaFile;
 import com.app.youtubeclone.service.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,8 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @RestController
 public class MediaStatusController {
@@ -24,8 +20,18 @@ public class MediaStatusController {
         return mediaService.createComment(id,comment);
     }
 
-    @PostMapping("like")
+    @PostMapping("/like")
     public String like(@RequestParam String id){
         return mediaService.like(id);
+    }
+
+    @PostMapping("/dislike")
+    public String dislike(@RequestParam String id){
+        return mediaService.dislike(id);
+    }
+
+    @PostMapping("/views")
+    public String views(@RequestParam String id){
+        return mediaService.views(Integer.parseInt(id));
     }
 }

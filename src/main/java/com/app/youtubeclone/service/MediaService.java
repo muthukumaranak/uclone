@@ -12,4 +12,8 @@ public interface MediaService {
     String createComment(String id, String comment);
 
     String like(String id);
+
+    String dislike(String id);
+
+    String views(int parseInt);
 }

@@ -17,4 +17,27 @@ public interface MediaFileRepo extends JpaRepository<MediaFile, Integer> {
     @Query("SELECT m FROM MediaFile m  WHERE m.title LIKE %?1%" + "OR m.description LIKE %?1%" + "OR m.owner LIKE %?1%" + "OR m.tag LIKE %?1%")
     Page<MediaFile> findAllByKeyword(String keyword, Pageable pageable);
 
+    @Query(value = "select likes from media_file where id=?1", nativeQuery = true)
+    int findLikes(int parseInt);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update media_file set likes = ?1 where id = ?2",nativeQuery = true)
+    void updateLikes(int total_likes, int parseInt);
+
+    @Query(value = "select dislikes from media_file where id=?1", nativeQuery = true)
+    int findDisLikes(int parseInt);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update media_file set dislikes = ?1 where id = ?2",nativeQuery = true)
+    void updateDisLikes(int i, int parseInt);
+
+    @Query(value = "select views from media_file where id=?1", nativeQuery = true)
+    int findViews(int id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update media_file set views = ?1 where id = ?2",nativeQuery = true)
+    void updateViews(int i, int id);
 }
