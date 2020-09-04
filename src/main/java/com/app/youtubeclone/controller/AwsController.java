@@ -38,9 +38,8 @@ public class AwsController {
         return "home";
     }
 
-
-    @DeleteMapping("/delete/{keyName}")
-    public void deleteFile(@PathVariable String keyName) {
+    @DeleteMapping("/delete")
+    public void deleteFile(@RequestParam String id, @PathVariable String keyName) {
         final DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucketName, keyName);
         s3client.deleteObject(deleteObjectRequest);
     }
