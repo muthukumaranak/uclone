@@ -2,6 +2,7 @@ package com.app.youtubeclone.entity;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "media_comment")
 public class MediaComment {
@@ -82,4 +83,3 @@ public class MediaComment {
         this.created_at = created_at;
     }
 }
-
