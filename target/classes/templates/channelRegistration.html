@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+​
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,7 @@
         font-family: 'Lucida Sans', 'Lucida Sans Regular';
         background: #232323;
     }
-
+​
     .form {
         background: #f2f2f2;
         width: 50%;
@@ -19,16 +19,16 @@
         margin-top: auto;
         text-align: center;
     }
-
+​
     form {
     margin-top: 5%;
         padding: 25px;
     }
-
+​
     label {
         font-weight: bold;
     }
-
+​
     input,
     select,
     textarea {
@@ -38,45 +38,45 @@
         width: 80%;
         padding: 10px;
     }
-
+​
     input[type="file"] {
         background: #f3f3f3;
         display: inline-block;
         cursor: pointer;
         border: 1px solid #232323;
-
+​
     }
-
+​
     input[type="submit"] {
         background: #333333;
         color: whitesmoke;
         width: 80%;
         padding: 10px;
     }
-    
+
     input[type="submit"]:hover {
         color: #333333;
         background: whitesmoke;}
 </style>
-
+​
 <body>
+​
+<div class="form">
+    <form action="/channelRegistration" method="post" enctype="multipart/form-data">
+        <h2>Channel Registration</h2> <hr>
+        <label for="name">Channel Name</label> <br>
+        <input type="text" name="name" id="name" placeholder="Enter your Channel Name" required> <br>
+        <label for="description">Description</label> <br>
+        <textarea name="description" id="" cols="30" rows="10" placeholder="Enter your Channel Description"
+                  required></textarea> <br>
 
-    <div class="form">
-        <form action="/register/channel" method="post" enctype="multipart/form-data">
-            <h2>Channel Registration</h2> <hr>
-            <label for="name">Channel Name</label> <br>
-            <input type="text" name="name" id="name" placeholder="Enter your Channel Name" required> <br>
-            <label for="description">Description</label> <br>
-            <textarea name="description" id="description" cols="30" rows="10" placeholder="Enter your Channel Description"
-                required></textarea> <br>
-            
-            <label for="thumbnail">Upload Cover Picture (only .jpg, .jpeg or .png)</label> <br>
-            <input type="file" name="thumbnail" max-size="2000" id="thumbnail" required> <br>
-             <hr>
-            
-            <input type="submit" value="Create Your Channel">
-        </form>
-    </div>
+        <label for="thumbnail">Upload Cover Picture (only .jpg, .jpeg or .png)</label> <br>
+        <input type="file" name="thumbnail" max-size="2000" id="thumbnail" required> <br>
+        <hr>
+
+        <input type="submit" value="Create Your Channel">
+    </form>
+</div>
 </body>
-
+​
 </html>
