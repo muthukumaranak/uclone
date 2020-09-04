@@ -19,13 +19,14 @@ import java.util.Date;
 public class AwsServiceImpl implements AwsService {
 
     @Autowired
-    private MediaFileRepo mediaFileRepo;
-
-    @Autowired
     private AmazonS3 s3client;
 
     @Value("${amazonProperties.bucketName}")
     private String bucketName;
+
+    @Autowired
+    MediaFileRepo mediaFileRepo;
+
     @Override
     public void upload(String title, String description, String tags, String restriction,
                        String visibility, MultipartFile thumbnail, MultipartFile video) {
@@ -53,11 +54,6 @@ public class AwsServiceImpl implements AwsService {
             System.out.println(e);
         }
 
-
-    }
-
-    @Override
-    public void delete(String keyName) {
 
     }
 }
