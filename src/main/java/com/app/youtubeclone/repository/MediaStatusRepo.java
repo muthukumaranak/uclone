@@ -8,4 +8,3 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MediaStatusRepo extends JpaRepository<MediaStatus, Integer> {
 }
-
