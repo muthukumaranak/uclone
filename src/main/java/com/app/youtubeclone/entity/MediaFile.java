@@ -41,8 +41,16 @@ public class MediaFile {
     @Column(name = "duration")
     private String duration;
 
-    @OneToOne(mappedBy = "mediaFile", fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true, targetEntity = MediaStatus.class)
-    private List<MediaStatus> mediaStatus;
+    @Column(name = "likes")
+    public int likes = 0;
+
+    @Column(name = "dislikes")
+    public int dislikes = 0;
+
+    @Column(name = "views")
+    public int views = 0;
+
+
 
     @OneToMany(mappedBy = "mediaComment", fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true, targetEntity = MediaComment.class)
     private List<MediaComment> mediaComment;
@@ -62,6 +70,33 @@ public class MediaFile {
         this.videoUrl = videoUrl;
         this.duration = duration;
         this.owner = owner;
+        this.likes = 0;
+        this.dislikes = 0;
+        this.views = 0;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public int getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(int dislikes) {
+        this.dislikes = dislikes;
+    }
+
+    public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
     }
 
     public int getId() {
@@ -144,13 +179,6 @@ public class MediaFile {
         this.owner = owner;
     }
 
-    public MediaStatus getMediaStatus() {
-        return (MediaStatus) mediaStatus;
-    }
-
-    public void setMediaStatus(MediaStatus mediaStatus) {
-        this.mediaStatus = (List<MediaStatus>) mediaStatus;
-    }
 
     public List<MediaComment> getMediaComment() {
         return mediaComment;

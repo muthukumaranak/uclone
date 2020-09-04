@@ -8,4 +8,8 @@ import java.util.Date;
 public interface MediaService {
 
     Page<MediaFile> findPage(int pageNo, int pageSize, String sortField, String sortDirection,String keyword);
+
+    String createComment(String id, String comment);
+
+    String like(String id);
 }
