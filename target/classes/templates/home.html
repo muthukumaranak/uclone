@@ -138,9 +138,21 @@
 <br>
 <div class="topnav">
     <a th:href="@{/}">Home</a>
-    <a th:href="@{/create}">My Channel</a>
-    <a th:href="@{/create}">My Library</a>
     <a th:href="@{/create}">Trending</a>
+
+
+    <!-- write if else condition to show this (if has channel show my channel else create channel-->
+    <a th:href="@{/create}">Create Channel</a>
+    <a th:href="@{/mychannel}">My Channel</a>
+
+
+    <!-- write if condition to show this only if logged in-->
+    <a th:href="@{/mylibrary}">My Library</a>
+    <a th:href="@{/logout}">Logout</a>
+    <!-- else -->
+    <a th:href="@{/login}">Login</a>
+    <a th:href="@{/signIn}">Sign Up</a>
+
     <div>
         <form action="#" style="display:block; float:right;"
               th:action="@{'/page/' + ${currentPage}+ '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}+ ${keyword != null ? '&keyword=' + keyword : ''} + ${tag != null ? '&tag=' + tag : ''}}">
@@ -150,8 +162,6 @@
             <button  type="submit" value="Search">Search</button>
         </form>
     </div>
-    <a th:href="@{/signIn}">Sign Up</a>
-    <a th:href="@{/create}">Create Channel</a>
     <!--    <a th:href="@{/watchLater}">Trending</a>-->
 </div>
 <br>
@@ -220,9 +230,10 @@
 
                     <details>
                         <summary>View Comments &nbsp;<i class="fa fa-comment" aria-hidden="true"></i></summary>
-                        <li>Comments</li>
-                        <li>Comments</li>
-                        <li>Comments</li>
+                        <div th:each="temp2:${temp.mediaComment}">
+                        <li th:text="${temp2.commentby} + ' : '+${temp2.comment}"></li>
+                        </div>
+
                     </details>
                     <textarea></textarea> <br>
                     <button>Add Comment</button>

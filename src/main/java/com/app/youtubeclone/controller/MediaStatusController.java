@@ -72,7 +72,6 @@ public class MediaStatusController {
                 commentDTO.setCommentby(comment.getCommentby());
                 commentDTO.setComment(comment.getComment());
                 commentDTO.setId(comment.getId());
-                commentDTO.setMediaFile(comment.getMediaFile());
                 commentDTO.setCreated_at(comment.getCreated_at());
                 commentDTOS.add(commentDTO);
             });
@@ -81,5 +80,6 @@ public class MediaStatusController {
         });
         model.addAttribute("list",list);
         return "ssss";
+       // return list;
     }
 }
