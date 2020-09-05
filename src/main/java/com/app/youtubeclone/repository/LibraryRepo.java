@@ -9,7 +9,5 @@ import java.util.List;
 
 @Repository
 public interface LibraryRepo extends JpaRepository<Library, Integer> {
-
-
     public List<MediaFile> findAllByUserId(int userId);
 }
