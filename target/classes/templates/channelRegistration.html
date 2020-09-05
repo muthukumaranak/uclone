@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-​
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,13 +11,13 @@
 <div class="topnav">
     <a th:href="@{/}">Back</a>
 </div>
-​<div class="form">
+<div class="form">
     <form action="/channelRegistration" method="post" enctype="multipart/form-data">
         <h2>Channel Registration</h2> <hr>
         <label for="name">Channel Name</label> <br>
         <input type="text" name="name" id="name" placeholder="Enter your Channel Name" required> <br>
         <label for="description">Description</label> <br>
-        <textarea name="description" id="" cols="30" rows="10" placeholder="Enter your Channel Description"
+        <textarea name="description" id="description" cols="30" rows="10" placeholder="Enter your Channel Description"
                   required></textarea> <br>
 
         <label for="thumbnail">Upload Cover Picture (only .jpg, .jpeg or .png)</label> <br>
@@ -28,5 +28,5 @@
     </form>
 </div>
 </body>
-​
+
 </html>

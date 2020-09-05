@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="header"><strong> YouTube </strong></div>
+<div class="topnav">
+    <a th:href="@{/}">Home</a>
+    <a th:href="@{/signIn}">SignIn</a>
+    <a th:href="@{/create}">Create</a>
+    <div>
+        <form action="#" style="display:block; float:right;"
+              th:action="@{'/page/' + ${currentPage}+ '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}+ ${keyword != null ? '&keyword=' + keyword : ''} + ${tag != null ? '&tag=' + tag : ''}}">
+            <input type="hidden" name="sortField" th:value="${sortField}">
+            <input type="hidden" name="sortDirection" th:value="${sortDirection}">
+            <input type="text" placeholder="Keyword.." name="keyword">
+            <button style="color:white;" type="submit" value="Search">Search</button>
+        </form>
+    </div>
+    <a th:href="@{/channel}">Channel</a>
+    <a th:href="@{/trending}">Trending</a>
+    <!--    <a th:href="@{/watchLater}">Trending</a>-->
+</div>
+<div class="paging" style="margin-bottom:10px">
+    <div th:if="${totalPages > 1}">
+        Total Rows: [[${totalItems}]] &nbsp; &nbsp;
+        <a th:if="${currentPage > 1}"
+           th:href="@{'/page/' + ${currentPage -1}+ '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + ${keyword != null ? '&keyword=' + keyword : ''} + ${tag != null ? '&tag=' + tag : ''}}">Prev</a>
+        <span th:unless="${currentPage > 1}">Prev</span>
+        <span th:each="i: ${#numbers.sequence(1, totalPages)}">&nbsp;<a th:if="${currentPage != i}"
+                                                                        th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + ${keyword != null ? '&keyword=' + keyword : ''} + ${tag != null ? '&tag=' + tag : ''}}">[[${i}]]</a>
+                    <span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp;
+                </span> &nbsp;
+        <a th:if="${currentPage < totalPages}"
+           th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + ${keyword != null ? '&keyword=' + keyword : ''} + ${tag != null ? '&tag=' + tag : ''}}">Next</a>
+        <span th:unless="${currentPage < totalPages}">Next</span>
+    </div>
+</div>
+
+
+<div th:each="file : ${mediaFiles}">
+    <div class="card">
+        <div class="container">
+            <div class="grid-container" style="display:grid; grid-template-columns:1fr 1fr;">
+                <div  class="description" style="border:1px solid black;">
+                    <video width="100%" autoplay="" plays-inline="" th:src="@{${file.videoUrl}}" controls="">
+                    </video>
+                    <input type="submit" th:href="@{'/setWatchLater/' +${file.id} }" value="Watch Later">
+                    <h4 th:text="${file.title}"></h4>
+                    <p th:text="${file.description}"></p>
+                    <button th:href="@{/likeCounter}">Like</button> &nbsp; <button th:href="@{/likeCounter}">Dislike</button>
+                    &nbsp; <span style="font-size:15px;" th:text="${file.createdAt} + ' '+ ${file.views} +' views'"></span><br>
+                    <div>
+                        <form style="margin-top:5px;" action="#" th:action="@{/saveComment(id=${file.id})}" th:object="${mediaComment}" method="post">
+                            <textarea placeholder="Comment here.." rows="5" cols="80" th:field="*{comment}" width="100%"></textarea><br>
+                            <input type="submit" value="Comment">
+                        </form>
+                    </div>
+                </div>
+                <div class="description">
+                    <div th:each="c : ${file.mediaComment}" style="margin-bottom:10px;">
+                        <span style="color:blue;" th:text="'Name : '"></span><span style="font-size:15px;" th:text="${c.commentby}"></span><br>
+                        <span style="color:blue;" th:text="'Comment : '"></span><span style="font-size:15px;" th:text="${c.comment}"></span><br>
+                        <span style="color:blue; font-size:15px;" th:text="'Created at : '"></span><span style="font-size:15px;" th:text="${c.created_at}"></span>
+                        <a th:href="@{'/deleteComment/' + ${c.id} + '/' + ${file.id} }">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer"></div>
+</body>
+</html>

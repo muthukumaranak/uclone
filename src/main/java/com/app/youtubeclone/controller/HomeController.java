@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -53,6 +54,37 @@ public class HomeController {
         final int PAGE_SIZE = 2;
         Page<MediaFile> page = mediaService.findPage(pageNo, PAGE_SIZE, sortField, sortDirection,keyword,tag);
         List<MediaFile> mediaFiles = page.getContent();
+        List<MediaFile> listDTOS = new LinkedList<>();
+        mediaFiles.forEach(video -> {
+            MediaFile mediaFileDTO = new MediaFile();
+            mediaFileDTO.setTitle(video.getTitle());
+            mediaFileDTO.setDescription(video.getDescription());
+            mediaFileDTO.setId(video.getId());
+            mediaFileDTO.setOwner(video.getOwner());
+            mediaFileDTO.setThumbnailUrl(video.getThumbnailUrl());
+            mediaFileDTO.setVideoUrl(video.getVideoUrl());
+            mediaFileDTO.setTag(video.getTag());
+            mediaFileDTO.setRestriction(video.getRestriction());
+            mediaFileDTO.setCreatedAt(video.getCreatedAt());
+            mediaFileDTO.setVisibility(video.getVisibility());
+            mediaFileDTO.setLikes(video.getLikes());
+            mediaFileDTO.setDislikes(video.getDislikes());
+            mediaFileDTO.setViews(video.getViews());
+            mediaFileDTO.setDuration(video.getDuration());
+            List<MediaComment> commentDTOS = new LinkedList();
+            video.getMediaComment().forEach(comment -> {
+                MediaComment commentDTO = new MediaComment();
+                commentDTO.setCommentby(comment.getCommentby());
+                commentDTO.setComment(comment.getComment());
+                commentDTO.setId(comment.getId());
+                commentDTO.setMediaFile(comment.getMediaFile());
+                commentDTO.setCreated_at(comment.getCreated_at());
+                commentDTOS.add(commentDTO);
+            });
+            mediaFileDTO.setMediaComment(commentDTOS);
+            listDTOS.add(mediaFileDTO);
+        });
+        model.addAttribute("list",listDTOS);
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
@@ -61,24 +93,50 @@ public class HomeController {
         model.addAttribute("keyword",keyword);
         model.addAttribute("tag",tag);
         model.addAttribute("mediaFiles",mediaFiles);
-        MediaComment mediaComment = new MediaComment();
-        model.addAttribute("mediaComment",mediaComment);
         return "home";
     }
 
     @GetMapping("/trending")
     public String trending(Model model){
         List<MediaFile> mediaFiles = mediaFileRepo.findTop2ByOrderByViewsDesc();
-        model.addAttribute("mediaFiles",mediaFiles);
-        MediaComment mediaComment = new MediaComment();
-        model.addAttribute("mediaComment",mediaComment);
+        List<MediaFile> list = new LinkedList<>();
+        mediaFiles.forEach(video -> {
+            MediaFile mediaFileDTO = new MediaFile();
+            mediaFileDTO.setTitle(video.getTitle());
+            mediaFileDTO.setDescription(video.getDescription());
+            mediaFileDTO.setId(video.getId());
+            mediaFileDTO.setOwner(video.getOwner());
+            mediaFileDTO.setThumbnailUrl(video.getThumbnailUrl());
+            mediaFileDTO.setVideoUrl(video.getVideoUrl());
+            mediaFileDTO.setTag(video.getTag());
+            mediaFileDTO.setRestriction(video.getRestriction());
+            mediaFileDTO.setCreatedAt(video.getCreatedAt());
+            mediaFileDTO.setVisibility(video.getVisibility());
+            mediaFileDTO.setLikes(video.getLikes());
+            mediaFileDTO.setDislikes(video.getDislikes());
+            mediaFileDTO.setViews(video.getViews());
+            mediaFileDTO.setDuration(video.getDuration());
+            List<MediaComment> commentDTOS = new LinkedList();
+            video.getMediaComment().forEach(comment -> {
+                MediaComment commentDTO = new MediaComment();
+                commentDTO.setCommentby(comment.getCommentby());
+                commentDTO.setComment(comment.getComment());
+                commentDTO.setId(comment.getId());
+                commentDTO.setMediaFile(comment.getMediaFile());
+                commentDTO.setCreated_at(comment.getCreated_at());
+                commentDTOS.add(commentDTO);
+            });
+            mediaFileDTO.setMediaComment(commentDTOS);
+            list.add(mediaFileDTO);
+        });
+        model.addAttribute("list",list);
         return "home";
     }
 
     @GetMapping("/watchLater")
     public String watchLater(Model model){
-        List<MediaFile> mediaFiles = mediaFileRepo.findAllWatchLater();
-        model.addAttribute("mediaFiles",mediaFiles);
+       // List<MediaFile> mediaFiles = mediaFileRepo.findAllWatchLater();
+       // model.addAttribute("mediaFiles",mediaFiles);
         MediaComment mediaComment = new MediaComment();
         model.addAttribute("mediaComment",mediaComment);
         return "home";
@@ -86,7 +144,6 @@ public class HomeController {
     @GetMapping("/setWatchLater/{id}")
     public String setWatchLater(@ModelAttribute("mediaComment") MediaComment comment, Model model, @PathVariable("id") int mediaId, @ModelAttribute("mediaFiles") MediaFile mediaFiles){
         MediaFile mediaFile = mediaFileRepo.findById(mediaId).get();
-        mediaFile.setWatchLater(true);
         model.addAttribute("mediaComment", comment);
         model.addAttribute("mediaFiles", mediaFiles);
         return "redirect:/";

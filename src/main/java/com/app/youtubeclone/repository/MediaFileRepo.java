@@ -24,8 +24,9 @@ public interface MediaFileRepo extends JpaRepository<MediaFile, Integer> {
 
     List<MediaFile> findTop2ByOrderByViewsDesc();
 
-    @Query("SELECT m FROM MediaFile m WHERE m.watchLater = :true")
-    List<MediaFile> findAllWatchLater();
+
+    //@Query("SELECT m FROM MediaFile m WHERE m.watchLater = :true")
+    //List<MediaFile> findAllWatchLater();
 
 
     @Query(value = "select likes from media_file where id=?1", nativeQuery = true)
