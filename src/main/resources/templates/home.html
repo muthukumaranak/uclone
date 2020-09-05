@@ -23,7 +23,7 @@
     </div>
     <a th:href="@{/channel}">Channel</a>
     <a th:href="@{/trending}">Trending</a>
-<!--    <a th:href="@{/watchLater}">Trending</a>-->
+    <!--    <a th:href="@{/watchLater}">Trending</a>-->
 </div>
 <div class="paging" style="margin-bottom:10px">
     <div th:if="${totalPages > 1}">
@@ -63,12 +63,12 @@
                     </div>
                 </div>
                 <div class="description">
-                <div th:each="c : ${file.mediaComment}" style="margin-bottom:10px;">
-                    <span style="color:blue;" th:text="'Name : '"></span><span style="font-size:15px;" th:text="${c.commentby}"></span><br>
-                    <span style="color:blue;" th:text="'Comment : '"></span><span style="font-size:15px;" th:text="${c.comment}"></span><br>
-                    <span style="color:blue; font-size:15px;" th:text="'Created at : '"></span><span style="font-size:15px;" th:text="${c.created_at}"></span>
-                    <a th:href="@{'/deleteComment/' + ${c.id} + '/' + ${file.id} }">Delete</a>
-                </div>
+                    <div th:each="c : ${file.mediaComment}" style="margin-bottom:10px;">
+                        <span style="color:blue;" th:text="'Name : '"></span><span style="font-size:15px;" th:text="${c.commentby}"></span><br>
+                        <span style="color:blue;" th:text="'Comment : '"></span><span style="font-size:15px;" th:text="${c.comment}"></span><br>
+                        <span style="color:blue; font-size:15px;" th:text="'Created at : '"></span><span style="font-size:15px;" th:text="${c.created_at}"></span>
+                        <a th:href="@{'/deleteComment/' + ${c.id} + '/' + ${file.id} }">Delete</a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,18 +1,21 @@
 package com.app.youtubeclone.service;
 
-import com.app.youtubeclone.repository.UserRepo;
-import com.app.youtubeclone.entity.User;
+import com.app.youtubeclone.entity.Users;
+import com.app.youtubeclone.repository.UsersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+
+@Service
 public class UserService
 {
 
     @Autowired
-    UserRepo usersRepo;
+    UsersRepo usersRepo;
 
     public String register(String name, String email, String password) {
         try{
-            User users = new User(name,email,password);
+            Users users = new Users(name,email,password);
             usersRepo.save(users);
             return "home";
         }catch (Exception e){

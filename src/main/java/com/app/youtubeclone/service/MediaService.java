@@ -10,4 +10,11 @@ public interface MediaService {
 
     Page<MediaFile> findPage(int pageNo, int pageSize, String sortField, String sortDirection,String keyword,String tag);
 
+    String createComment(String id, String comment);
+
+    String like(String id);
+
+    String dislike(String id);
+
+    String views(int parseInt);
 }

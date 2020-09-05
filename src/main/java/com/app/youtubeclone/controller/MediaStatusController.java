@@ -69,6 +69,5 @@ public class MediaStatusController {
         });
         model.addAttribute("list",listDTOS);
         return "ssss";
-        //return listDTOS;
     }
 }
