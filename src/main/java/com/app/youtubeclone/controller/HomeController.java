@@ -1,7 +1,9 @@
 package com.app.youtubeclone.controller;
 
+import com.app.youtubeclone.entity.Library;
 import com.app.youtubeclone.entity.MediaComment;
 import com.app.youtubeclone.entity.MediaFile;
+import com.app.youtubeclone.repository.LibraryRepo;
 import com.app.youtubeclone.repository.MediaFileRepo;
 import com.app.youtubeclone.service.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class HomeController {
 
     @Autowired
     private MediaFileRepo mediaFileRepo;
+
+    @Autowired
+    private LibraryRepo libraryRepo;
 
     @GetMapping("/")
     public String viewHomePage(Model model) {
@@ -150,5 +155,22 @@ public class HomeController {
 
     }
 
+    @GetMapping("/watchLater/{userId}/{mediaId}")
+    public String watchLater(@RequestParam("userId") int userId,@RequestParam("mediaId") int mediaId,Model model){
+        Library library = new Library();
+        library.setUserId(userId);
+        library.setVideoId(mediaId);
+        libraryRepo.save(library);
+        return "redirect:/";
+    }
 
+    @GetMapping("/savedVideo")
+    public String savedVideo(@RequestParam("userId") int userId,Model model){
+        List<MediaFile> mediaFiles = libraryRepo.findAllByUserId(userId);
+        System.out.println("files : "+libraryRepo.findAllByUserId(userId));
+        model.addAttribute("mediaFiles",mediaFiles);
+        MediaComment mediaComment = new MediaComment();
+        model.addAttribute("mediaComment",mediaComment);
+        return "home";
+    }
 }
