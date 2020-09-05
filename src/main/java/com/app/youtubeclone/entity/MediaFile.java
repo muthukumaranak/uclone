@@ -36,21 +36,22 @@ public class MediaFile {
     private String videoUrl;
 
     @Column(name = "owner")
-    private String owner;
+    private String owner = "admin";
+
+    @Column(name = "likes")
+    private Integer likes = 0;
+
+    @Column(name = "dislikes")
+    private Integer dislikes = 0;
+
+    @Column(name = "views")
+    private Integer views = 0;
 
     @Column(name = "duration")
     private String duration;
 
-    @Column(name = "likes")
-    public int likes = 0;
-
-    @Column(name = "dislikes")
-    public int dislikes = 0;
-
-    @Column(name = "views")
-    public int views = 0;
-
-
+    @Column(name = "watch_later")
+    private Boolean watchLater = false;
 
     @OneToMany(mappedBy = "mediaComment", fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true, targetEntity = MediaComment.class)
     private List<MediaComment> mediaComment;
@@ -59,7 +60,7 @@ public class MediaFile {
     }
 
     public MediaFile(String title, String description, String tag, String restriction, String createdAt,
-                     String visibility, String thumbnailUrl, String videoUrl, String duration, String owner) {
+                     String visibility, String thumbnailUrl, String videoUrl, String owner, int likes, int dislikes, int views, String duration,Boolean watchLater ) {
         this.title = title;
         this.description = description;
         this.tag = tag;
@@ -68,35 +69,12 @@ public class MediaFile {
         this.visibility = visibility;
         this.thumbnailUrl = thumbnailUrl;
         this.videoUrl = videoUrl;
-        this.duration = duration;
         this.owner = owner;
-        this.likes = 0;
-        this.dislikes = 0;
-        this.views = 0;
-    }
-
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
         this.likes = likes;
-    }
-
-    public int getDislikes() {
-        return dislikes;
-    }
-
-    public void setDislikes(int dislikes) {
         this.dislikes = dislikes;
-    }
-
-    public int getViews() {
-        return views;
-    }
-
-    public void setViews(int views) {
+        this.duration = duration;
         this.views = views;
+        this.watchLater = watchLater;
     }
 
     public int getId() {
@@ -179,7 +157,6 @@ public class MediaFile {
         this.owner = owner;
     }
 
-
     public List<MediaComment> getMediaComment() {
         return mediaComment;
     }
@@ -188,11 +165,55 @@ public class MediaFile {
         this.mediaComment = mediaComment;
     }
 
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public int getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(int dislikes) {
+        this.dislikes = dislikes;
+    }
+
+    public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
+    }
+
     public String getDuration() {
         return duration;
     }
 
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
+    public void setDislikes(Integer dislikes) {
+        this.dislikes = dislikes;
+    }
+
+    public void setViews(Integer views) {
+        this.views = views;
+    }
+
+    public Boolean getWatchLater() {
+        return watchLater;
+    }
+
+    public void setWatchLater(Boolean watchLater) {
+        this.watchLater = watchLater;
     }
 }

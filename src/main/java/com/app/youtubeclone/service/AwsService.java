@@ -7,6 +7,6 @@ import java.io.IOException;
 public interface AwsService {
 
 
-    void upload(String title, String description, String tags, String restriction, String visibility, MultipartFile thumbnail, MultipartFile video, String duration) throws IOException;
+    void upload(String title, String description, String tags, String restriction, String visibility, MultipartFile thumbnail, MultipartFile video,int likes, int dislikes, int views, String duration, Boolean watchLater) throws IOException;
     public void delete(String keyName);
 }

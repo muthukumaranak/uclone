@@ -29,17 +29,18 @@ public class AwsController {
     @PostMapping("/upload")
     public String upload(@RequestParam String title, @RequestParam String description, @RequestParam String tags,
                          @RequestParam("thumbnail") MultipartFile thumbnail, @RequestParam("video") MultipartFile video,
-                         @RequestParam String duration, @RequestParam String visibility, @RequestParam String restriction) {
+                         @RequestParam String visibility, @RequestParam String restriction,@RequestParam int likes,@RequestParam int dislikes,@RequestParam int views, @RequestParam String duration,@RequestParam Boolean watchLater) {
         try {
-            awsService.upload(title, description, tags, restriction, visibility, thumbnail, video, duration);
+            awsService.upload(title, description, tags, restriction, visibility, thumbnail, video,likes,dislikes,views,duration, watchLater);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return "home";
     }
 
-    @DeleteMapping("/delete")
-    public void deleteFile(@RequestParam String id, @PathVariable String keyName) {
+
+    @DeleteMapping("/delete/{keyName}")
+    public void deleteFile(@PathVariable String keyName) {
         final DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucketName, keyName);
         s3client.deleteObject(deleteObjectRequest);
     }

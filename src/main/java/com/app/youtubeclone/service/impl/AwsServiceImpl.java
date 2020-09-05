@@ -10,9 +10,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 
 @Service
 public class AwsServiceImpl implements AwsService {
@@ -27,7 +28,7 @@ public class AwsServiceImpl implements AwsService {
     private String bucketName;
     @Override
     public void upload(String title, String description, String tags, String restriction,
-                       String visibility, MultipartFile thumbnail, MultipartFile video, String duration) {
+                       String visibility, MultipartFile thumbnail, MultipartFile video, int likes, int dislikes, int views, String duration, Boolean watchLater) {
         try {
             String thumbnailOriginalFilename = thumbnail.getOriginalFilename();
             String videoOriginalFilename = video.getOriginalFilename();
@@ -45,12 +46,14 @@ public class AwsServiceImpl implements AwsService {
             String created_at = f.format(new Date());
 
             MediaFile mediaFile = new MediaFile(title, description, tags, restriction, created_at, visibility, thumbnailurl, videourl,
-                    duration,"admin");
+                    "admin",likes,dislikes,views,duration,watchLater);
             mediaFileRepo.save(mediaFile);
 
         } catch (Exception e) {
             System.out.println(e);
         }
+
+
     }
 
     @Override

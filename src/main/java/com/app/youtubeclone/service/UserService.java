@@ -3,10 +3,7 @@ package com.app.youtubeclone.service;
 import com.app.youtubeclone.repository.UserRepo;
 import com.app.youtubeclone.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-
-@Service
 public class UserService
 {
 
@@ -21,5 +18,6 @@ public class UserService
         }catch (Exception e){
             return "error";
         }
+
     }
 }

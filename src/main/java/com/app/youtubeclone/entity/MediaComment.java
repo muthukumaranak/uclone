@@ -19,7 +19,7 @@ public class MediaComment {
     public String comment;
 
     @ManyToOne
-    @JoinColumn(name = "mediafileid", referencedColumnName = "id")
+    @JoinColumn(name = "mediafieldid", referencedColumnName = "id")
     public MediaFile mediaComment;
 
     @Column(name = "created_at")
