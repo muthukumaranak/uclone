@@ -37,20 +37,13 @@ public class CommentController {
          return "redirect:/";
       }
 
-//    @GetMapping("/deleteComment")
-//    public String deleteComment(@RequestParam(value = "id")Integer commentId,@ModelAttribute("mediaFiles") MediaFile mediaFiles,@ModelAttribute("mediaComment") MediaComment comment, Model model) {
-//        System.out.println("comment id : " +commentId);
-//          commentService.deleteCommentById(commentId);
-//          model.addAttribute("mediaComment", comment);
-//          model.addAttribute("mediaFiles", mediaFiles);
-//          return "redirect:/";
-//    }
 
 
     @GetMapping("/deleteComment/{commentId}/{mediaId}")
-    public String deleteComment(@PathVariable(value = "commentId")int commentId,@PathVariable(value = "mediaId")int mediaId,Model model) {
+    public String deleteComment(@PathVariable(value = "commentId")int commentId,@PathVariable(value = "mediaId")int mediaId,@ModelAttribute("mediaComment") MediaComment comment,Model model) {
         mediaCommentRepo.deleteById(commentId);
         MediaFile mediaFile = mediaFileRepo.findById(mediaId).get();
+        model.addAttribute("mediaComment",comment );
         model.addAttribute("mediaFiles",mediaFile);
         return "redirect:/";
     }

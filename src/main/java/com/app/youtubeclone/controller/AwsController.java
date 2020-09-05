@@ -29,9 +29,9 @@ public class AwsController {
     @PostMapping("/upload")
     public String upload(@RequestParam String title, @RequestParam String description, @RequestParam String tags,
                          @RequestParam("thumbnail") MultipartFile thumbnail, @RequestParam("video") MultipartFile video,
-                         @RequestParam String visibility, @RequestParam String restriction,@RequestParam int likes,@RequestParam int dislikes,@RequestParam int views, @RequestParam String duration,@RequestParam Boolean watchLater) {
+                         @RequestParam String visibility, @RequestParam String restriction,@RequestParam int likes,@RequestParam int dislikes,@RequestParam int views, @RequestParam String duration) {
         try {
-            awsService.upload(title, description, tags, restriction, visibility, thumbnail, video,likes,dislikes,views,duration, watchLater);
+            awsService.upload(title, description, tags, restriction, visibility, thumbnail, video,likes,dislikes,views,duration);
         } catch (IOException e) {
             e.printStackTrace();
         }

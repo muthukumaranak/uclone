@@ -50,8 +50,6 @@ public class MediaFile {
     @Column(name = "duration")
     private String duration;
 
-    @Column(name = "watch_later")
-    private Boolean watchLater = false;
 
     @OneToMany(mappedBy = "mediaComment", fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true, targetEntity = MediaComment.class)
     private List<MediaComment> mediaComment;
@@ -60,7 +58,7 @@ public class MediaFile {
     }
 
     public MediaFile(String title, String description, String tag, String restriction, String createdAt,
-                     String visibility, String thumbnailUrl, String videoUrl, String owner, int likes, int dislikes, int views, String duration,Boolean watchLater ) {
+                     String visibility, String thumbnailUrl, String videoUrl, String owner, int likes, int dislikes, int views, String duration ) {
         this.title = title;
         this.description = description;
         this.tag = tag;
@@ -74,7 +72,7 @@ public class MediaFile {
         this.dislikes = dislikes;
         this.duration = duration;
         this.views = views;
-        this.watchLater = watchLater;
+
     }
 
     public int getId() {
@@ -209,11 +207,4 @@ public class MediaFile {
         this.views = views;
     }
 
-    public Boolean getWatchLater() {
-        return watchLater;
-    }
-
-    public void setWatchLater(Boolean watchLater) {
-        this.watchLater = watchLater;
-    }
 }

@@ -1,7 +1,9 @@
 package com.app.youtubeclone.controller;
 
+import com.app.youtubeclone.entity.Library;
 import com.app.youtubeclone.entity.MediaComment;
 import com.app.youtubeclone.entity.MediaFile;
+import com.app.youtubeclone.repository.LibraryRepo;
 import com.app.youtubeclone.repository.MediaFileRepo;
 import com.app.youtubeclone.service.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +12,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.GeneratedValue;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
-@Controller
+@RestController
 public class HomeController {
 
     @Autowired
@@ -26,6 +27,9 @@ public class HomeController {
 
     @Autowired
     private MediaFileRepo mediaFileRepo;
+
+    @Autowired
+    private LibraryRepo libraryRepo;
 
     @GetMapping("/")
     public String viewHomePage(Model model) {
@@ -75,23 +79,26 @@ public class HomeController {
         return "home";
     }
 
-    @GetMapping("/watchLater")
-    public String watchLater(Model model){
-        List<MediaFile> mediaFiles = mediaFileRepo.findAllWatchLater();
+    @GetMapping("/watchLater/{userId}/{mediaId}")
+    public String watchLater(@RequestParam("userId") int userId,@RequestParam("mediaId") int mediaId,Model model){
+       Library library = new Library();
+       library.setUserId(userId);
+       library.setVideoId(mediaId);
+       libraryRepo.save(library);
+       return "redirect:/";
+    }
+
+    @GetMapping("/savedVideo")
+    public String savedVideo(@RequestParam("userId") int userId,Model model){
+        List<MediaFile> mediaFiles = libraryRepo.findAllByUserId(userId);
+        System.out.println("files : "+libraryRepo.findAllByUserId(userId));
         model.addAttribute("mediaFiles",mediaFiles);
         MediaComment mediaComment = new MediaComment();
         model.addAttribute("mediaComment",mediaComment);
         return "home";
-    }
-    @GetMapping("/setWatchLater/{id}")
-    public String setWatchLater(@ModelAttribute("mediaComment") MediaComment comment, Model model, @PathVariable("id") int mediaId, @ModelAttribute("mediaFiles") MediaFile mediaFiles){
-        MediaFile mediaFile = mediaFileRepo.findById(mediaId).get();
-        mediaFile.setWatchLater(true);
-        model.addAttribute("mediaComment", comment);
-        model.addAttribute("mediaFiles", mediaFiles);
-        return "redirect:/";
 
     }
+
 
 
 }

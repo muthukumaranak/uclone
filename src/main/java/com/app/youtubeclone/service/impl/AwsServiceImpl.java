@@ -28,7 +28,7 @@ public class AwsServiceImpl implements AwsService {
     private String bucketName;
     @Override
     public void upload(String title, String description, String tags, String restriction,
-                       String visibility, MultipartFile thumbnail, MultipartFile video, int likes, int dislikes, int views, String duration, Boolean watchLater) {
+                       String visibility, MultipartFile thumbnail, MultipartFile video, int likes, int dislikes, int views, String duration) {
         try {
             String thumbnailOriginalFilename = thumbnail.getOriginalFilename();
             String videoOriginalFilename = video.getOriginalFilename();
@@ -46,7 +46,7 @@ public class AwsServiceImpl implements AwsService {
             String created_at = f.format(new Date());
 
             MediaFile mediaFile = new MediaFile(title, description, tags, restriction, created_at, visibility, thumbnailurl, videourl,
-                    "admin",likes,dislikes,views,duration,watchLater);
+                    "admin",likes,dislikes,views,duration);
             mediaFileRepo.save(mediaFile);
 
         } catch (Exception e) {
