@@ -17,10 +17,9 @@ public class UserService
         try{
             Users users = new Users(name,email,password);
             usersRepo.save(users);
-            return "home";
+            return "redirect:/";
         }catch (Exception e){
             return "error";
         }
-
     }
 }
