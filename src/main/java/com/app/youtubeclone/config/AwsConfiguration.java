@@ -35,4 +35,3 @@ public class AwsConfiguration {
         return s3Client;
     }
 }
-

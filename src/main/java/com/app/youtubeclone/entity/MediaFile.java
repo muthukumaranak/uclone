@@ -57,8 +57,22 @@ public class MediaFile {
     public MediaFile() {
     }
 
+    public MediaFile(String title, String description, String tag, String restriction, String createdAt, String visibility, String thumbnailUrl, String videoUrl, String owner,String duration) {
+
+        this.title = title;
+        this.description = description;
+        this.tag = tag;
+        this.restriction = restriction;
+        this.createdAt = createdAt;
+        this.visibility = visibility;
+        this.thumbnailUrl = thumbnailUrl;
+        this.videoUrl = videoUrl;
+        this.owner = owner;
+        this.duration = duration;
+    }
+
     public MediaFile(String title, String description, String tag, String restriction, String createdAt,
-                     String visibility, String thumbnailUrl, String videoUrl, String owner, int likes, int dislikes, int views, String duration ) {
+                     String visibility, String thumbnailUrl, String videoUrl, String owner, int likes, int dislikes, int views, String duration) {
         this.title = title;
         this.description = description;
         this.tag = tag;
@@ -72,7 +86,6 @@ public class MediaFile {
         this.dislikes = dislikes;
         this.duration = duration;
         this.views = views;
-
     }
 
     public int getId() {

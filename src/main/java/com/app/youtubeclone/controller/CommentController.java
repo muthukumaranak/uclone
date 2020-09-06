@@ -16,34 +16,41 @@ import java.util.Optional;
 @Controller
 public class CommentController {
 
-      @Autowired
-      private CommentService commentService;
+    @Autowired
+    private CommentService commentService;
 
-      @Autowired
-      private MediaFileRepo mediaFileRepo;
+    @Autowired
+    private MediaFileRepo mediaFileRepo;
 
-      @Autowired
-      private MediaCommentRepo mediaCommentRepo;
+    @Autowired
+    private MediaCommentRepo mediaCommentRepo;
 
-      @PostMapping("/saveComment")
-      public String saveComment(@ModelAttribute("mediaComment") MediaComment comment, Model model, @RequestParam("id")int mediaId,@ModelAttribute("mediaFiles") MediaFile mediaFiles){
-         MediaFile mediaFile = mediaFileRepo.findById(mediaId).get();
-         comment.setMediaFile(mediaFiles);
-         comment.setCommentby(mediaFile.getOwner());
-         comment.setCreated_at(new Date().toString());
-         commentService.saveComment(comment);
-         model.addAttribute("mediaComment", comment);
-         model.addAttribute("mediaFiles", mediaFile);
-         return "redirect:/";
-      }
+    @PostMapping("/saveComment")
+    public String saveComment(@ModelAttribute("mediaComment") MediaComment comment, Model model, @RequestParam("id")int mediaId,@ModelAttribute("mediaFiles") MediaFile mediaFiles){
+        MediaFile mediaFile = mediaFileRepo.findById(mediaId).get();
+        comment.setMediaFile(mediaFiles);
+        comment.setCommentby(mediaFile.getOwner());
+        comment.setCreated_at(new Date().toString());
+        commentService.saveComment(comment);
+        model.addAttribute("mediaComment", comment);
+        model.addAttribute("mediaFiles", mediaFile);
+        return "redirect:/";
+    }
 
+//    @GetMapping("/deleteComment")
+//    public String deleteComment(@RequestParam(value = "id")Integer commentId,@ModelAttribute("mediaFiles") MediaFile mediaFiles,@ModelAttribute("mediaComment") MediaComment comment, Model model) {
+//        System.out.println("comment id : " +commentId);
+//          commentService.deleteCommentById(commentId);
+//          model.addAttribute("mediaComment", comment);
+//          model.addAttribute("mediaFiles", mediaFiles);
+//          return "redirect:/";
+//    }
 
 
     @GetMapping("/deleteComment/{commentId}/{mediaId}")
-    public String deleteComment(@PathVariable(value = "commentId")int commentId,@PathVariable(value = "mediaId")int mediaId,@ModelAttribute("mediaComment") MediaComment comment,Model model) {
+    public String deleteComment(@PathVariable(value = "commentId")int commentId,@PathVariable(value = "mediaId")int mediaId,Model model) {
         mediaCommentRepo.deleteById(commentId);
         MediaFile mediaFile = mediaFileRepo.findById(mediaId).get();
-        model.addAttribute("mediaComment",comment );
         model.addAttribute("mediaFiles",mediaFile);
         return "redirect:/";
     }

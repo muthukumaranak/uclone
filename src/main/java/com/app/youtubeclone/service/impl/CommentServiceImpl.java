@@ -14,7 +14,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void saveComment(MediaComment comment) {
-            this.mediaCommentRepo.save(comment);
+        this.mediaCommentRepo.save(comment);
     }
 
     @Override

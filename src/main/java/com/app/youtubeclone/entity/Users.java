@@ -23,6 +23,9 @@ public class Users {
     @Column(name = "channel_status")
     public String status ="false";
 
+    @Column(name = "role")
+    public String role = "user";
+
     public int getId() {
         return id;
     }
@@ -63,21 +66,32 @@ public class Users {
         this.status = status;
     }
 
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public Users(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.status = "false";
+        this.role = "owner";
     }
 
     public Users() {
     }
 
-    public Users(int id, String name, String email, String password, String status) {
+    public Users(int id, String name, String email, String password, String status,String role) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.status = status;
+        this.role = role;
     }
 }
