@@ -43,6 +43,7 @@
             <option value="Anyone">Anyone can watch</option>
             <option value="Adults">Only for adults</option>
         </select> <br>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <input type="submit" value="Publish Video">
     </form>
 </div>

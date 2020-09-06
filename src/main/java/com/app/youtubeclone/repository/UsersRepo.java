@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Repository
 public interface UsersRepo extends JpaRepository<Users, Integer> {
-
+    @Query("SELECT u FROM Users u WHERE u.name = :username")
+    public Users getUserByUsername(@RequestParam("username") String username);
 
 }

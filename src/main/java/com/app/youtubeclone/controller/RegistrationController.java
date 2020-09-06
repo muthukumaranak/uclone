@@ -31,8 +31,7 @@ public class RegistrationController {
 
     @PostMapping("/userRegistration")
     public String userRegistration(@RequestParam("name") String name, @RequestParam("email") String email, @RequestParam("password") String password){
-        userService.register(name, email, password);
-        return "home";
+        return userService.register(name, email, password);
     }
 
     @PostMapping("/channel")

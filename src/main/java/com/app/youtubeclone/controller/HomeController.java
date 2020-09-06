@@ -7,16 +7,14 @@ import com.app.youtubeclone.entity.Users;
 import com.app.youtubeclone.repository.LibraryRepo;
 import com.app.youtubeclone.repository.MediaFileRepo;
 import com.app.youtubeclone.service.MediaService;
+import com.app.youtubeclone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -33,6 +31,9 @@ public class HomeController {
 
     @Autowired
     private LibraryRepo libraryRepo;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping("/")
     public String viewHomePage(Model model) {
@@ -52,6 +53,13 @@ public class HomeController {
     @GetMapping("/login")
     public String login(){
         return "login";
+    }
+
+    @PostMapping("/user")
+    public String userRegister(@RequestParam String name, @RequestParam String email,
+                               @RequestParam String password){
+        System.out.println("Controller called");
+        return userService.register(name,email,password);
     }
 
     @GetMapping("/mylibrary")

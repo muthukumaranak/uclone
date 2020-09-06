@@ -70,6 +70,7 @@ input[type="button"]:hover {
         <label for="password">Password</label> <br>
         <input type="password" name="password" id="password" placeholder="Enter your password" required> <br>
         <hr>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <input type="submit" value="Login">
         <a th:href="@{/signIn}">
             <input type="button" value="Sign Up"></a>
