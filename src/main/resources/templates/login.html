@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -71,7 +71,7 @@ input[type="button"]:hover {
             <input type="password" name="password" id="password" placeholder="Enter your password" required> <br>
             <hr>
             <input type="submit" value="Login">
-            <a href="/register/user">
+            <a th:href="@{/signIn}">
             <input type="button" value="Sign Up"></a>
         </form>
     </div>

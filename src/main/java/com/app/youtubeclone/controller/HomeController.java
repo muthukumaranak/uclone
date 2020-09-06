@@ -53,6 +53,11 @@ public class HomeController {
         return "channelRegistration";
     }
 
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
+
     @GetMapping("/mylibrary")
     public String mylibrary(Model model){
         List<MediaFile> mediaFiles = mediaFileRepo.findTop2ByOrderByViewsDesc();
