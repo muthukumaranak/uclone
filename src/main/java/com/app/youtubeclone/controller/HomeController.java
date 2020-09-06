@@ -50,9 +50,20 @@ public class HomeController {
         return "channelRegistration";
     }
 
-    @GetMapping("/login")
+    @GetMapping("/loginpage2")
     public String login(){
+        return "redirect:/";
+    }
+
+
+    @GetMapping("/loginpage")
+    public String login2(){
         return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(){
+        return "redirect:/";
     }
 
     @PostMapping("/user")

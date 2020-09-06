@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
 
@@ -147,9 +147,9 @@
 
     <!-- write if condition to show this only if logged in-->
     <a th:href="@{/mylibrary}">My Library</a>
-    <a th:href="@{/logout}">Logout</a>
+    <a th:href="@{/logout}" sec:authorize="isAuthenticated()">Logout</a>
     <!-- else -->
-    <a th:href="@{/login}">Login</a>
+    <a th:href="@{/loginpage}">Login</a>
     <a th:href="@{/signIn}">Sign Up</a>
 
     <div>
