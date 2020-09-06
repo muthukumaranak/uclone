@@ -53,6 +53,43 @@ public class HomeController {
         return "channelRegistration";
     }
 
+    @GetMapping("/mylibrary")
+    public String mylibrary(Model model){
+        List<MediaFile> mediaFiles = mediaFileRepo.findTop2ByOrderByViewsDesc();
+        List<MediaFile> list = new LinkedList<>();
+        mediaFiles.forEach(video -> {
+            MediaFile mediaFileDTO = new MediaFile();
+            mediaFileDTO.setTitle(video.getTitle());
+            mediaFileDTO.setDescription(video.getDescription());
+            mediaFileDTO.setId(video.getId());
+            mediaFileDTO.setOwner(video.getOwner());
+            mediaFileDTO.setThumbnailUrl(video.getThumbnailUrl());
+            mediaFileDTO.setVideoUrl(video.getVideoUrl());
+            mediaFileDTO.setTag(video.getTag());
+            mediaFileDTO.setRestriction(video.getRestriction());
+            mediaFileDTO.setCreatedAt(video.getCreatedAt());
+            mediaFileDTO.setVisibility(video.getVisibility());
+            mediaFileDTO.setLikes(video.getLikes());
+            mediaFileDTO.setDislikes(video.getDislikes());
+            mediaFileDTO.setViews(video.getViews());
+            mediaFileDTO.setDuration(video.getDuration());
+            List<MediaComment> commentDTOS = new LinkedList();
+            video.getMediaComment().forEach(comment -> {
+                MediaComment commentDTO = new MediaComment();
+                commentDTO.setCommentby(comment.getCommentby());
+                commentDTO.setComment(comment.getComment());
+                commentDTO.setId(comment.getId());
+                commentDTO.setMediaFile(comment.getMediaFile());
+                commentDTO.setCreated_at(comment.getCreated_at());
+                commentDTOS.add(commentDTO);
+            });
+            mediaFileDTO.setMediaComment(commentDTOS);
+            list.add(mediaFileDTO);
+        });
+        model.addAttribute("list", list);
+        return "mylibrary";
+    }
+
     @GetMapping("/mychannel")
     public String mychannel(Model model) {
         List<MediaFile> mediaFiles = mediaFileRepo.findTop2ByOrderByViewsDesc();
