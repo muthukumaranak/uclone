@@ -35,7 +35,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String viewHomePage(Model model) {
-        return findPage(1, "title", "asc","","",model);
+        return findPage(1, "title", "asc", "", "", model);
     }
 
     @GetMapping("/create")
@@ -44,65 +44,17 @@ public class HomeController {
     }
 
     @GetMapping("/signIn")
-    public String signIn(){return "userRegistration";}
-
-    @GetMapping("/channel")
-    public String channel(){return "channelRegistration";}
-
-    @GetMapping("/page/{pageNo}")
-    public String findPage( @PathVariable(value = "pageNo") int pageNo,
-                            @RequestParam("sortField") String sortField,
-                            @RequestParam("sortDirection") String sortDirection,
-                            @RequestParam(value = "keyword", required = false) String keyword,
-                            @RequestParam(value = "tag", required = false) String tag,
-                            Model model) {
-        final int PAGE_SIZE = 2;
-        Page<MediaFile> page = mediaService.findPage(pageNo, PAGE_SIZE, sortField, sortDirection,keyword,tag);
-        List<MediaFile> mediaFiles = page.getContent();
-        List<MediaFile> listDTOS = new LinkedList<>();
-        mediaFiles.forEach(video -> {
-            MediaFile mediaFileDTO = new MediaFile();
-            mediaFileDTO.setTitle(video.getTitle());
-            mediaFileDTO.setDescription(video.getDescription());
-            mediaFileDTO.setId(video.getId());
-            mediaFileDTO.setOwner(video.getOwner());
-            mediaFileDTO.setThumbnailUrl(video.getThumbnailUrl());
-            mediaFileDTO.setVideoUrl(video.getVideoUrl());
-            mediaFileDTO.setTag(video.getTag());
-            mediaFileDTO.setRestriction(video.getRestriction());
-            mediaFileDTO.setCreatedAt(video.getCreatedAt());
-            mediaFileDTO.setVisibility(video.getVisibility());
-            mediaFileDTO.setLikes(video.getLikes());
-            mediaFileDTO.setDislikes(video.getDislikes());
-            mediaFileDTO.setViews(video.getViews());
-            mediaFileDTO.setDuration(video.getDuration());
-            List<MediaComment> commentDTOS = new LinkedList();
-            video.getMediaComment().forEach(comment -> {
-                MediaComment commentDTO = new MediaComment();
-                commentDTO.setCommentby(comment.getCommentby());
-                commentDTO.setComment(comment.getComment());
-                commentDTO.setId(comment.getId());
-                commentDTO.setMediaFile(comment.getMediaFile());
-                commentDTO.setCreated_at(comment.getCreated_at());
-                commentDTOS.add(commentDTO);
-            });
-            mediaFileDTO.setMediaComment(commentDTOS);
-            listDTOS.add(mediaFileDTO);
-        });
-        model.addAttribute("list",listDTOS);
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDirection", sortDirection);
-        model.addAttribute("keyword",keyword);
-        model.addAttribute("tag",tag);
-        model.addAttribute("mediaFiles",mediaFiles);
-        return "home";
+    public String signIn() {
+        return "userRegistration";
     }
 
-    @GetMapping("/trending")
-    public String trending(Model model){
+    @GetMapping("/channel")
+    public String channel() {
+        return "channelRegistration";
+    }
+
+    @GetMapping("/mychannel")
+    public String mychannel(Model model) {
         List<MediaFile> mediaFiles = mediaFileRepo.findTop2ByOrderByViewsDesc();
         List<MediaFile> list = new LinkedList<>();
         mediaFiles.forEach(video -> {
@@ -134,20 +86,110 @@ public class HomeController {
             mediaFileDTO.setMediaComment(commentDTOS);
             list.add(mediaFileDTO);
         });
-        model.addAttribute("list",list);
+        model.addAttribute("list", list);
+        return "mychannel";
+    }
+
+    @GetMapping("/page/{pageNo}")
+    public String findPage(@PathVariable(value = "pageNo") int pageNo,
+                           @RequestParam("sortField") String sortField,
+                           @RequestParam("sortDirection") String sortDirection,
+                           @RequestParam(value = "keyword", required = false) String keyword,
+                           @RequestParam(value = "tag", required = false) String tag,
+                           Model model) {
+        final int PAGE_SIZE = 2;
+        Page<MediaFile> page = mediaService.findPage(pageNo, PAGE_SIZE, sortField, sortDirection, keyword, tag);
+        List<MediaFile> mediaFiles = page.getContent();
+        List<MediaFile> listDTOS = new LinkedList<>();
+        mediaFiles.forEach(video -> {
+            MediaFile mediaFileDTO = new MediaFile();
+            mediaFileDTO.setTitle(video.getTitle());
+            mediaFileDTO.setDescription(video.getDescription());
+            mediaFileDTO.setId(video.getId());
+            mediaFileDTO.setOwner(video.getOwner());
+            mediaFileDTO.setThumbnailUrl(video.getThumbnailUrl());
+            mediaFileDTO.setVideoUrl(video.getVideoUrl());
+            mediaFileDTO.setTag(video.getTag());
+            mediaFileDTO.setRestriction(video.getRestriction());
+            mediaFileDTO.setCreatedAt(video.getCreatedAt());
+            mediaFileDTO.setVisibility(video.getVisibility());
+            mediaFileDTO.setLikes(video.getLikes());
+            mediaFileDTO.setDislikes(video.getDislikes());
+            mediaFileDTO.setViews(video.getViews());
+            mediaFileDTO.setDuration(video.getDuration());
+            List<MediaComment> commentDTOS = new LinkedList();
+            video.getMediaComment().forEach(comment -> {
+                MediaComment commentDTO = new MediaComment();
+                commentDTO.setCommentby(comment.getCommentby());
+                commentDTO.setComment(comment.getComment());
+                commentDTO.setId(comment.getId());
+                commentDTO.setMediaFile(comment.getMediaFile());
+                commentDTO.setCreated_at(comment.getCreated_at());
+                commentDTOS.add(commentDTO);
+            });
+            mediaFileDTO.setMediaComment(commentDTOS);
+            listDTOS.add(mediaFileDTO);
+        });
+        model.addAttribute("list", listDTOS);
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("tag", tag);
+        model.addAttribute("mediaFiles", mediaFiles);
+        return "home";
+    }
+
+    @GetMapping("/trending")
+    public String trending(Model model) {
+        List<MediaFile> mediaFiles = mediaFileRepo.findTop2ByOrderByViewsDesc();
+        List<MediaFile> list = new LinkedList<>();
+        mediaFiles.forEach(video -> {
+            MediaFile mediaFileDTO = new MediaFile();
+            mediaFileDTO.setTitle(video.getTitle());
+            mediaFileDTO.setDescription(video.getDescription());
+            mediaFileDTO.setId(video.getId());
+            mediaFileDTO.setOwner(video.getOwner());
+            mediaFileDTO.setThumbnailUrl(video.getThumbnailUrl());
+            mediaFileDTO.setVideoUrl(video.getVideoUrl());
+            mediaFileDTO.setTag(video.getTag());
+            mediaFileDTO.setRestriction(video.getRestriction());
+            mediaFileDTO.setCreatedAt(video.getCreatedAt());
+            mediaFileDTO.setVisibility(video.getVisibility());
+            mediaFileDTO.setLikes(video.getLikes());
+            mediaFileDTO.setDislikes(video.getDislikes());
+            mediaFileDTO.setViews(video.getViews());
+            mediaFileDTO.setDuration(video.getDuration());
+            List<MediaComment> commentDTOS = new LinkedList();
+            video.getMediaComment().forEach(comment -> {
+                MediaComment commentDTO = new MediaComment();
+                commentDTO.setCommentby(comment.getCommentby());
+                commentDTO.setComment(comment.getComment());
+                commentDTO.setId(comment.getId());
+                commentDTO.setMediaFile(comment.getMediaFile());
+                commentDTO.setCreated_at(comment.getCreated_at());
+                commentDTOS.add(commentDTO);
+            });
+            mediaFileDTO.setMediaComment(commentDTOS);
+            list.add(mediaFileDTO);
+        });
+        model.addAttribute("list", list);
         return "home";
     }
 
     @GetMapping("/watchLater")
-    public String watchLater(Model model){
-       // List<MediaFile> mediaFiles = mediaFileRepo.findAllWatchLater();
-       // model.addAttribute("mediaFiles",mediaFiles);
+    public String watchLater(Model model) {
+        // List<MediaFile> mediaFiles = mediaFileRepo.findAllWatchLater();
+        // model.addAttribute("mediaFiles",mediaFiles);
         MediaComment mediaComment = new MediaComment();
-        model.addAttribute("mediaComment",mediaComment);
+        model.addAttribute("mediaComment", mediaComment);
         return "home";
     }
+
     @GetMapping("/setWatchLater/{id}")
-    public String setWatchLater(@ModelAttribute("mediaComment") MediaComment comment, Model model, @PathVariable("id") int mediaId, @ModelAttribute("mediaFiles") MediaFile mediaFiles){
+    public String setWatchLater(@ModelAttribute("mediaComment") MediaComment comment, Model model, @PathVariable("id") int mediaId, @ModelAttribute("mediaFiles") MediaFile mediaFiles) {
         MediaFile mediaFile = mediaFileRepo.findById(mediaId).get();
         model.addAttribute("mediaComment", comment);
         model.addAttribute("mediaFiles", mediaFiles);
@@ -156,7 +198,7 @@ public class HomeController {
     }
 
     @GetMapping("/watchLater/{userId}/{mediaId}")
-    public String watchLater(@RequestParam("userId") int userId,@RequestParam("mediaId") int mediaId,Model model){
+    public String watchLater(@RequestParam("userId") int userId, @RequestParam("mediaId") int mediaId, Model model) {
         Library library = new Library();
         library.setUserId(userId);
         library.setVideoId(mediaId);
@@ -165,12 +207,12 @@ public class HomeController {
     }
 
     @GetMapping("/savedVideo")
-    public String savedVideo(@RequestParam("userId") int userId,Model model){
+    public String savedVideo(@RequestParam("userId") int userId, Model model) {
         List<MediaFile> mediaFiles = libraryRepo.findAllByUserId(userId);
-        System.out.println("files : "+libraryRepo.findAllByUserId(userId));
-        model.addAttribute("mediaFiles",mediaFiles);
+        System.out.println("files : " + libraryRepo.findAllByUserId(userId));
+        model.addAttribute("mediaFiles", mediaFiles);
         MediaComment mediaComment = new MediaComment();
-        model.addAttribute("mediaComment",mediaComment);
+        model.addAttribute("mediaComment", mediaComment);
         return "home";
     }
 }
